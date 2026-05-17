@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Visual Showcase — ELGHAZOUI ABDERRAHMAN</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Gallery-specific adjustments */
+    .showcase-hero{min-height:48vh;display:flex;align-items:center;justify-content:center;position:relative;background:#071021;color:#eaf6ff;padding:6rem 2rem}
+    .showcase-hero h2{font-size:clamp(28px,4.6vw,44px);margin:0 0 .25rem}
+    .showcase-hero p{opacity:0.86;margin:0 0 1rem}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+    .gallery-item{position:relative;overflow:hidden;border-radius:14px;box-shadow:0 18px 40px rgba(6,12,24,0.6);cursor:pointer}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.9,.2,1),filter .4s}
+    .gallery-item:hover img{transform:scale(1.06);filter:brightness(1.03) saturate(1.06)}
+    .gallery-caption{position:absolute;left:16px;bottom:12px;background:linear-gradient(90deg, rgba(4,8,18,0.6), rgba(4,8,18,0.28));padding:8px 12px;border-radius:10px;font-weight:600;font-size:.95rem}
+
+    /* Lightbox */
+    #lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(1,4,8,0.82);z-index:9999}
+    #lightbox.active{display:flex}
+    #lightbox img{max-width:90%;max-height:85%;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,0.7)}
+    #lightbox .meta{color:#dbefff;margin-top:12px;text-align:center}
+    #lightbox .close, #lightbox .nav{position:absolute;top:18px;right:22px;color:#fff;font-size:22px;cursor:pointer;opacity:.9}
+    #lightbox .nav{top:50%;transform:translateY(-50%);right:auto;left:22px;font-size:34px}
+    #lightbox .prev{left:18px}
+    #lightbox .next{right:18px;left:auto}
+
+    @media (max-width: 1000px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 640px){.gallery-grid{grid-template-columns:1fr}.showcase-hero{padding:4rem 1.2rem}}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <div class="logo">⚡ ABDERRAHMAN.dev</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Expertise</a></li>
+        <li><a href="#gallery">Showcase</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="showcase-hero">
+      <div>
+        <h2 class="glow-text">Visual Showcase</h2>
+        <p>Curated moments: cinematic, editorial, and technical — high-resolution originals optimized for presentation.</p>
+      </div>
+    </section>
+
+    <section id="gallery" style="padding:3rem 2rem 6rem">
+      <div class="container">
+        <div class="gallery-grid">
+          <div class="gallery-item" data-caption="Voice Interfaces & AI"><img src="voice.png" alt="Voice project"></div>
+          <div class="gallery-item" data-caption="Personal portrait"><img src="personal.jpg" alt="Personal portrait"></div>
+          <div class="gallery-item" data-caption="Night coding session"><img src="night.jpg" alt="Night session"></div>
+          <div class="gallery-item" data-caption="NASA Space Apps Hackathon"><img src="nasa.jpg" alt="NASA hackathon"></div>
+          <div class="gallery-item" data-caption="Engineering moment (hero)"><img src="hero.jpg" alt="Hero engineering"></div>
+          <div class="gallery-item" data-caption="Brand & Design"><img src="brand.jpg" alt="Brand design"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="lightbox" role="dialog" aria-hidden="true">
+    <div class="prev nav" aria-hidden="true">◀</div>
+    <div class="next nav" aria-hidden="true">▶</div>
+    <div style="text-align:center">
+      <img src="" alt="" id="lb-img">
+      <div class="meta"><div id="lb-caption"></div></div>
+    </div>
+    <div class="close" aria-hidden="true">✕</div>
+  </div>
+
+  <script>
+    (function(){
+      const items = Array.from(document.querySelectorAll('.gallery-item'));
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lb-img');
+      const lbCaption = document.getElementById('lb-caption');
+      const closeBtn = lb.querySelector('.close');
+      const prevBtn = lb.querySelector('.prev');
+      const nextBtn = lb.querySelector('.next');
+      let idx = 0;
+      function open(i){
+        const el = items[i];
+        const img = el.querySelector('img');
+        lbImg.src = img.src;
+        lbImg.alt = img.alt || '';
+        lbCaption.textContent = el.dataset.caption || img.alt || '';
+        lb.classList.add('active');
+        lb.setAttribute('aria-hidden','false');
+        idx = i;
+      }
+      function close(){lb.classList.remove('active');lb.setAttribute('aria-hidden','true');lbImg.src='';}
+      items.forEach((it,i)=>it.addEventListener('click',()=>open(i)));
+      closeBtn.addEventListener('click',close);
+      lb.addEventListener('click',e=>{if(e.target===lb)close();});
+      prevBtn.addEventListener('click',()=>open((idx-1+items.length)%items.length));
+      nextBtn.addEventListener('click',()=>open((idx+1)%items.length));
+      document.addEventListener('keydown',e=>{if(e.key==='Escape')close(); if(e.key==='ArrowRight')nextBtn.click(); if(e.key==='ArrowLeft')prevBtn.click();});
+    })();
+  </script>
+</body>
+</html>
