@@ -71,8 +71,8 @@ window.addEventListener('load', () => {
 // Image error handling - provides console feedback for missing images
 const images = document.querySelectorAll('img');
 images.forEach(img => {
-  img.addEventListener('error', function(e) {
-      const expected = ['hero.jpg','personal.jpg','nasa.jpg','voice.png','night.jpg','brand.jpg'];
+    img.addEventListener('error', function(e) {
+      const expected = ['hero.jpg','nasa.jpg','voice.png','night.jpg','brand.jpg'];
       console.warn(`Image missing: ${this.src} — Expected files: ${expected.join(', ')}`);
     this.style.opacity = '0.6';
     this.style.filter = 'grayscale(0.3)';
@@ -99,7 +99,7 @@ if (footerP) {
 }
 
 // Optional: add a small console greeting for international experts
-console.log('🚀 ELGHAZOUI ABDERRAHMAN — Pro portfolio loaded | Images expected: hero.jpg, personal.jpg, nasa.jpg, voice.png, night.jpg, brand.jpg');
+console.log('🚀 ELGHAZOUI ABDERRAHMAN — Pro portfolio loaded | Images expected: hero.jpg, nasa.jpg, voice.png, night.jpg, brand.jpg');
 
 // Contact form validation and faux-submit (replace with Netlify/Server handler when ready)
 const contactForm = document.getElementById('contactForm');
